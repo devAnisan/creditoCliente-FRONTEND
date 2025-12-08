@@ -1,0 +1,27 @@
+@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
+@theme {
+  --font-sans: 'Inter';
+  --font-title: 'Poppins';
+
+  --color-primary: #89b4fa;
+  --color-hoverpr: #3680f7;
+  --color-rprimary: #fa8989;
+  --color-rp: #f86262;
+  --color-secondary: #f5c2e7;
+  --color-background: #1e1e2e;
+  --color-primarytext: #e0e0e0;
+  --color-acentos: #bac2de;
+}
+
+.btn-main {
+  @apply mx-3 my-1 rounded-2xl border px-5 py-1 hover:bg-white hover:text-background hover:cursor-pointer;
+}
+
+.box-PopUp {
+  @apply flex shadow-xl/30 flex-col rounded-lg bg-background p-6 w-84 justify-center items-center;
+}
+
+.box-popUpBackground {
+  @apply flex fixed inset-0 bg-black/40 items-center justify-center text-primarytext font-black;
+}
