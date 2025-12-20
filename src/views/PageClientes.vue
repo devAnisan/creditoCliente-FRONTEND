@@ -135,7 +135,7 @@ const togglePopForm = (newState: boolean) => {
   </div>
 
   <section v-if="stateOfpopForm">
-    <popUpForm title="Hola Amiwitos" />
+    <popUpForm title="Ingrese los datos del nuevo usuario" :form-data="formFieldsAddCustomer" />
   </section>
 
   <section v-if="showDetail">
