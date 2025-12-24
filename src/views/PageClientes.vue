@@ -6,9 +6,23 @@ export interface Cliente {
   direccion: string
 }
 const formFieldsAddCustomer = [
-  { requiered: true ,label: 'Nombre',  model: 'nombre', placeholder: 'Ej: Xavier',  },
-  { requiered: true, max: '9',label: 'Cédula', model: 'uid', placeholder: 'Ej: 601230456', type: 'number' },
-  { requiered: true ,max: '8', label: 'Número telefonico', model: 'tel', placeholder: 'Ej: 61234567', type: 'number' },
+  { label: 'Nombre', model: 'nombre', placeholder: 'Ej: Xavier', required: true },
+  {
+    label: 'Cédula',
+    model: 'uid',
+    placeholder: 'Ej: 601230456',
+    type: 'number',
+    max: 9,
+    required: true,
+  },
+  {
+    label: 'Número telefonico',
+    model: 'tel',
+    placeholder: 'Ej: 61234567',
+    type: 'number',
+    max: 8,
+    required: true,
+  },
   { label: 'Dirección', model: 'direccion', placeholder: 'Ej: Provincia, Canton, Calle...' },
 ]
 import TableClients from '@/components/TableClients.vue'
@@ -135,8 +149,12 @@ const togglePopForm = (newState: boolean) => {
   </div>
 
   <section v-if="stateOfpopForm">
-    <popUpForm title="Crear usuario
-    " :form-data="formFieldsAddCustomer" />
+    <popUpForm
+      title="Crear usuario
+    "
+      :form-data="formFieldsAddCustomer"
+      @close="togglePopForm"
+    />
   </section>
 
   <section v-if="showDetail">

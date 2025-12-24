@@ -5,6 +5,7 @@ export interface responseAPI {
   data?: undefined
 }
 import type { Cliente } from '@/views/PageClientes.vue'
+import { json } from 'stream/consumers'
 export const obtenerClientes = async () => {
   const res = await fetch(`http://localhost:3000/api/clientes/`)
   return await res.json()
@@ -52,6 +53,29 @@ export const actualizarCliente = async (
     return {
       ok: false,
       message: error instanceof Error ? error.message : 'Error desconocido',
+    }
+  }
+}
+
+export const crearCliente = async(data: Cliente) => {
+  try {
+    const res = await fetch('http://localhost:3000/api/clientes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    const response = await res.json()
+    return{
+      ok: res.ok,
+      message: response.message ?? 'Server Response',
+      response: response.data ?? null
+    }
+  } catch (error) {
+    return{
+      ok: false,
+      message: error instanceof Error ? error.message : "Error desconocido"
     }
   }
 }
