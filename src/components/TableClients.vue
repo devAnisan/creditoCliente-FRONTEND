@@ -60,8 +60,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue'
-
 interface cliente {
   id_cliente: number
   nombre: string

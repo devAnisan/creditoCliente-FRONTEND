@@ -3,6 +3,7 @@ import {
   borrarCliente,
   clienteInfo,
   actualizarCliente,
+  crearCliente,
 } from '@/services/clienteservices'
 import type { Cliente } from '@/views/PageClientes.vue'
 export const countCreditos = async (data: number) => {
@@ -19,4 +20,8 @@ export const clientePID = async (data: number) => {
 
 export const actualizarcl = async (id: number | undefined, data: Cliente) => {
   return actualizarCliente(id, data)
+}
+
+export const crearCl = async (data: Cliente) => {
+  return crearCliente(data)
 }

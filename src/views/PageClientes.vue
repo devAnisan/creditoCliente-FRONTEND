@@ -9,7 +9,7 @@ const formFieldsAddCustomer = [
   { label: 'Nombre', model: 'nombre', placeholder: 'Ej: Xavier', required: true },
   {
     label: 'Cédula',
-    model: 'uid',
+    model: 'id_cliente',
     placeholder: 'Ej: 601230456',
     type: 'number',
     max: 9,
@@ -17,7 +17,7 @@ const formFieldsAddCustomer = [
   },
   {
     label: 'Número telefonico',
-    model: 'tel',
+    model: 'telefono',
     placeholder: 'Ej: 61234567',
     type: 'number',
     max: 8,
@@ -32,7 +32,7 @@ import popUp from '@/components/PopUp.vue'
 import popUpForm from '@/components/popUpForm.vue'
 
 import { obtenerClientes } from '@/services/clienteservices'
-import { countCreditos, borrarCl } from '@/composable/clientes'
+import { countCreditos, borrarCl, crearCl } from '@/composable/clientes'
 import { onMounted, ref, watch } from 'vue'
 import { Loader, UserCheck, UserRoundPlus } from 'lucide-vue-next'
 
@@ -103,6 +103,16 @@ const deleteCl = async (id_cliente: number) => {
   }
 }
 
+const crearCliente = async (data: Cliente) => {
+  try {
+    await crearCl(data)
+    stateOfpopForm.value = false
+    loadClientes()
+  } catch (error) {
+    console.error(`Error al crear al cliente: ${error}`)
+  }
+}
+
 const changeStatusShowEdit = (newState: boolean) => {
   showEdit.value = newState
 }
@@ -132,26 +142,28 @@ const togglePopForm = (newState: boolean) => {
 
 <template>
   <h1 class="font-title p-1 text-3xl text-center">Clientes</h1>
-  <div class="flex p-1">
-    <span class="m-1 flex justify-center items-center">Gestión de clientes</span>
-    <input
-      v-model="searchPerName"
-      class="border-0 p-2 text-primarytext bg-background rounded-2xl ml-auto"
-      placeholder="Buscar cliente"
-      type="text"
-    />
-    <span class="flex justify-center items-center mx-3 p-3">
-      <UserRoundPlus
-        @click="togglePopForm(true)"
-        class="text-background hover:scale-150 hover:cursor-pointer"
+  <div class="flex-wrap">
+    <div class="flex p-1">
+      <span class="m-1 flex justify-center items-center">Gestión de clientes</span>
+      <input
+        v-model="searchPerName"
+        class="border-0 p-2 text-primarytext bg-background rounded-2xl ml-auto"
+        placeholder="Buscar cliente"
+        type="text"
       />
-    </span>
+      <span class="flex justify-center items-center mx-3 p-3">
+        <UserRoundPlus
+          @click="togglePopForm(true)"
+          class="text-background hover:scale-150 hover:cursor-pointer"
+        />
+      </span>
+    </div>
   </div>
 
   <section v-if="stateOfpopForm">
     <popUpForm
-      title="Crear usuario
-    "
+      title="Crear usuario"
+      v-on:submit="crearCliente"
       :form-data="formFieldsAddCustomer"
       @close="togglePopForm"
     />

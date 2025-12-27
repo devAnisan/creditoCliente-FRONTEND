@@ -11,7 +11,7 @@
                 :placeholder="field.placeholder"
                 :required="field.required ?? false"
                 v-model="form[field.model]"
-                :maxlength="field.max ?? 30"
+                :maxlength="field.max ?? 100"
                 :type="field.type ?? 'text'"
                 class="border my-1 rounded-2xl p-1"
               />
@@ -20,7 +20,7 @@
         </table>
         <div class="flex">
           <input type="button" @click="closeForm" value="Cancelar" class="btn-main" />
-          <input type="submit" value="Confirmar" class="btn-main" />
+          <input type="submit" v-on:click="print" value="Confirmar" class="btn-main" />
         </div>
       </form>
     </section>
@@ -51,7 +51,9 @@ const props = defineProps<{
 }>()
 
 const form = reactive<Record<string, string>>({})
-
+const print = () => {
+  console.log(form)
+}
 watch(
   () => props.formData,
   () => {
@@ -61,7 +63,4 @@ watch(
   },
   { immediate: true },
 )
-const printer = () => {
-  console.log(form)
-}
 </script>

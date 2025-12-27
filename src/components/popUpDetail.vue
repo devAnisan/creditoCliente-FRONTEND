@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import type { Cliente } from '@/views/PageClientes.vue'
-import { defineProps, defineEmits } from 'vue'
-
 defineProps<{
   cliente: Cliente
 }>()
@@ -18,6 +16,7 @@ const changeDetail = (condition: boolean) => {
     class="flex fixed inset-0 bg-black/40 items-center justify-center text-primarytext font-black"
   >
     <section class="box-PopUp">
+      <span>Detalles de {{ cliente?.nombre }}</span>
       <table>
         <tr>
           <td class="p-2 font-semibold">Nombre:</td>
@@ -39,6 +38,9 @@ const changeDetail = (condition: boolean) => {
           <td class="p-2 text-primary">{{ cliente?.direccion }}</td>
         </tr>
       </table>
+      <div>
+        <input class="btn-main" type="button" value="Cerrar" />
+      </div>
     </section>
   </section>
 </template>

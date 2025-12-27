@@ -1,6 +1,6 @@
 <template>
   <header class="p-4 bg-background text-2xl font-sans text-primarytext">
-    <ul class="flex flex-row items-center">
+    <ul class="flex flex-row flex-wrap items-center">
       <router-link to="/" class="mr-4">Página principal</router-link>
       <li class="mr-4">LOGO</li>
       <li class="mr-4">Pagos</li>

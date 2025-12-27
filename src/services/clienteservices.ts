@@ -5,7 +5,7 @@ export interface responseAPI {
   data?: undefined
 }
 import type { Cliente } from '@/views/PageClientes.vue'
-import { json } from 'stream/consumers'
+
 export const obtenerClientes = async () => {
   const res = await fetch(`http://localhost:3000/api/clientes/`)
   return await res.json()
@@ -59,7 +59,8 @@ export const actualizarCliente = async (
 
 export const crearCliente = async(data: Cliente) => {
   try {
-    const res = await fetch('http://localhost:3000/api/clientes', {
+
+    const res = await fetch('http://localhost:3000/api/clientes/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
