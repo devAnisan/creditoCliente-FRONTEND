@@ -4,7 +4,7 @@
       <router-link to="/" class="mr-4">Página principal</router-link>
       <li class="mr-4">LOGO</li>
       <li class="mr-4">Pagos</li>
-      <li class="mr-4">Creditos</li>
+      <router-link to="/creditos" class="mr-4"> Creditos </router-link>
       <router-link to="/clientes" class="mr-4">Clientes</router-link>
       <li class="flex ml-auto">
         <Bell class="m-1" />
