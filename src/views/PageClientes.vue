@@ -1,26 +1,37 @@
 <script lang="ts" setup>
 export interface Cliente {
-  id_cliente: number
+  cedula: string
   nombre: string
   telefono: string
+  apellido: string
+  email: string
   direccion: string
 }
 const formFieldsAddCustomer = [
-  { label: 'Nombre', model: 'nombre', placeholder: 'Ej: Xavier', required: true },
   {
     label: 'Cédula',
-    model: 'id_cliente',
-    placeholder: 'Ej: 601230456',
-    type: 'number',
+    model: 'cedula',
+    placeholder: 'Ej: 601231234',
+    type: 'text',
     max: 9,
     required: true,
   },
+  { label: 'Nombre', model: 'nombre', placeholder: 'Ej: Daniel', required: true },
+  { label: 'Apellido', model: 'apellido', placeholder: 'Ej: Mejía', required: false },
   {
     label: 'Número telefonico',
     model: 'telefono',
-    placeholder: 'Ej: 61234567',
-    type: 'number',
+    placeholder: 'Ej: 20003000',
+    type: 'text',
     max: 8,
+    required: true,
+  },
+  {
+    label: 'Correo eléctronico',
+    model: 'email',
+    placeholder: 'Ej: danielmejia@gmail.com',
+    type: 'email',
+
     required: true,
   },
   { label: 'Dirección', model: 'direccion', placeholder: 'Ej: Provincia, Canton, Calle...' },
@@ -39,7 +50,7 @@ import { Loader, UserCheck, UserRoundPlus } from 'lucide-vue-next'
 const clientes = ref<Cliente[]>([])
 const clientesOriginal = ref<Cliente[]>([])
 const isFetching = ref(true)
-const creditosPorCliente = ref<{ [key: number]: number }>({})
+const creditosPorCliente = ref<{ [key: string]: string }>({})
 const id_borrar_question = ref()
 const showPopUp = ref(false)
 const showDetail = ref(false)
@@ -48,9 +59,11 @@ const showPopUpUpdate = ref(false)
 const searchPerName = ref('')
 const stateOfpopForm = ref(false)
 const detailsCustomer = ref<Cliente>({
-  id_cliente: 0,
+  cedula: '',
   nombre: '',
+  apellido: '',
   telefono: '',
+  email: '',
   direccion: '',
 })
 const showEdit = ref(false)
@@ -58,6 +71,7 @@ const loadClientes = async () => {
   const data = await obtenerClientes()
   clientes.value = data
   clientesOriginal.value = data
+  console.log(clientes.value)
 }
 onMounted(async () => loadClientes())
 
@@ -78,26 +92,31 @@ watch(
     if (lista.length === 0) return
     isFetching.value = true
     for (const cliente of lista) {
-      const data = await countCreditos(cliente.id_cliente)
+      const data = await countCreditos(cliente.cedula)
 
-      creditosPorCliente.value[cliente.id_cliente] = data.data || 0
+      creditosPorCliente.value[cliente.cedula] = data.data || 0
     }
     isFetching.value = false
   },
   { immediate: true },
 )
 
-const searchID = (id: number) => {
-  const clienteBuscado = clientes.value.find((c) => c.id_cliente === id)
+const searchID = (id: string) => {
+  const clienteBuscado = clientes.value.find((c) => c.cedula === id)
   if (clienteBuscado) {
     detailsCustomer.value = clienteBuscado
   }
 }
 
-const deleteCl = async (id_cliente: number) => {
+const deleteCl = async (cedula: string) => {
   try {
-    await borrarCl(id_cliente)
-    clientes.value = clientes.value.filter((c) => c.id_cliente !== id_cliente)
+    const result = await borrarCl(cedula)
+    if (result.error) {
+      alert('Puede que no puedas borrar a este cliente por que tiene un credito activo.')
+      return
+    }
+
+    clientes.value = clientes.value.filter((c) => c.cedula !== cedula)
   } catch (error) {
     console.error(`Error al borrar: ${error}`)
   }
@@ -105,7 +124,10 @@ const deleteCl = async (id_cliente: number) => {
 
 const crearCliente = async (data: Cliente) => {
   try {
-    await crearCl(data)
+    const result = await crearCl(data)
+    if (result.code == 'ER_WRONG_VALUE_COUNT_ON_ROW') {
+      alert('Parece que algo salió mal, revisa bien los valores insertados en el formulario.')
+    }
     stateOfpopForm.value = false
     loadClientes()
   } catch (error) {

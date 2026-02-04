@@ -18,6 +18,10 @@
   @apply mx-3 my-1 rounded-2xl border px-5 py-1 hover:bg-white hover:text-background hover:cursor-pointer;
 }
 
+.btn-main-secondary {
+  @apply mx-3 my-1 rounded-2xl border px-5 py-1 hover:text-white hover:bg-background hover:cursor-pointer;
+}
+
 .box-PopUp {
   @apply flex shadow-xl/30 flex-col rounded-lg bg-background p-6 w-84 justify-center items-center;
 }

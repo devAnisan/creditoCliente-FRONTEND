@@ -4,6 +4,18 @@
       <h1>Editar al cliente</h1>
       <table>
         <tr>
+          <td class="p-2">Cédula:</td>
+          <td>
+            <input
+              disabled
+              class="border w-30 p-1 rounded-lg cursor-not-allowed"
+              type="text"
+              name="cedula"
+              :value="clientes?.cedula"
+            />
+          </td>
+        </tr>
+        <tr>
           <td class="p-2">Nombre:</td>
           <td>
             <input
@@ -15,14 +27,13 @@
           </td>
         </tr>
         <tr>
-          <td class="p-2">Cédula:</td>
+          <td class="p-2">Apellidos:</td>
           <td>
             <input
-              disabled
-              class="border w-30 p-1 rounded-lg cursor-not-allowed"
+              class="border w-30 p-1 rounded-lg cursor-"
               type="text"
-              name="cedula"
-              :value="clientes?.id_cliente"
+              name="nombre"
+              v-model="copyCl.apellido"
             />
           </td>
         </tr>
@@ -35,6 +46,17 @@
               type="text"
               name="telefono"
               v-model="copyCl.telefono"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="p-2">Correo eléctronico:</td>
+          <td>
+            <input
+              class="border w-30 p-1 rounded-lg"
+              type="text"
+              name="telefono"
+              v-model="copyCl.email"
             />
           </td>
         </tr>
@@ -58,7 +80,7 @@
           class="btn-main"
           type="button"
           value="Confirmar"
-          @click="(updateCl(clientes?.id_cliente, copyCl), closePopUp(false), openPopUp(true))"
+          @click="(updateCl(clientes?.cedula, copyCl), closePopUp(false), openPopUp(true))"
         />
       </div>
     </section>
@@ -66,10 +88,10 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, defineProps, ref } from 'vue'
+import { ref } from 'vue'
 import { actualizarcl } from '@/composable/clientes'
 import type { Cliente } from '@/views/PageClientes.vue'
-const updateCl = async (id: number, cl: Cliente) => {
+const updateCl = async (id: string, cl: Cliente) => {
   await actualizarcl(id, cl)
 }
 

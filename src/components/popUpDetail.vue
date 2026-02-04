@@ -16,26 +16,31 @@ const changeDetail = (condition: boolean) => {
     class="flex fixed inset-0 bg-black/40 items-center justify-center text-primarytext font-black"
   >
     <section class="box-PopUp">
-      <span>Detalles de {{ cliente?.nombre }}</span>
-      <table>
-        <tr>
-          <td class="p-2 font-semibold">Nombre:</td>
-          <td class="p-2 text-primary">{{ cliente?.nombre }}</td>
+      <span class="text-2xl">Detalles de {{ cliente?.nombre }}</span>
+      <table class="**:p-1 **:border">
+        <tr class="odd:bg-blue-950 even:bg-blue-900">
+          <td>Cédula:</td>
+          <td>{{ cliente?.cedula }}</td>
         </tr>
-
-        <tr>
-          <td class="p-2 font-semibold">Cédula:</td>
-          <td class="p-2 text-primary">{{ cliente?.id_cliente }}</td>
+        <tr class="odd:bg-blue-950 even:bg-blue-900">
+          <td>Nombre:</td>
+          <td>{{ cliente?.nombre }}</td>
         </tr>
-
-        <tr>
-          <td class="p-2 font-semibold">Número telefónico:</td>
-          <td class="p-2 text-primary">{{ cliente?.telefono }}</td>
+        <tr class="odd:bg-blue-950 even:bg-blue-900">
+          <td>Apellido:</td>
+          <td>{{ cliente?.apellido }}</td>
         </tr>
-
-        <tr>
-          <td class="p-2 font-semibold">Dirección:</td>
-          <td class="p-2 text-primary">{{ cliente?.direccion }}</td>
+        <tr class="odd:bg-blue-950 even:bg-blue-900">
+          <td>Número telefónico:</td>
+          <td>{{ cliente?.telefono }}</td>
+        </tr>
+        <tr class="odd:bg-blue-950 even:bg-blue-900">
+          <td>Correo eléctronico:</td>
+          <td>{{ cliente?.email }}</td>
+        </tr>
+        <tr class="odd:bg-blue-950 even:bg-blue-900">
+          <td>Dirección:</td>
+          <td>{{ cliente?.direccion }}</td>
         </tr>
       </table>
       <div>

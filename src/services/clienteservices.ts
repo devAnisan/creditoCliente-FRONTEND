@@ -11,12 +11,12 @@ export const obtenerClientes = async () => {
   return await res.json()
 }
 
-export const creditosVencidos = async (data: number) => {
+export const creditosVencidos = async (data: string) => {
   const res = await fetch(`http://localhost:3000/api/clientes/cl/${data}`)
   return await res.json()
 }
 
-export const borrarCliente = async (data: number) => {
+export const borrarCliente = async (data: string) => {
   const res = await fetch(`http://localhost:3000/api/clientes/${data}`, {
     method: 'DELETE',
     headers: {
@@ -32,7 +32,7 @@ export const clienteInfo = async (data: number) => {
 }
 
 export const actualizarCliente = async (
-  id: number | undefined,
+  id: string | undefined,
   datos: Cliente,
 ): Promise<responseAPI> => {
   try {
@@ -69,7 +69,7 @@ export const crearCliente = async(data: Cliente) => {
     })
     const response = await res.json()
     return{
-      ok: res.ok,
+      code: response.code,
       message: response.message ?? 'Server Response',
       response: response.data ?? null
     }
