@@ -35,7 +35,6 @@ const registrar_pago = async () => {
 
     if (response.data.affectedRows > 0) {
       alert('Pago registrado exitosamente')
-      closePopUp(false)
       emit('updateTable')
     } else {
       alert('Error al registrar el pago')

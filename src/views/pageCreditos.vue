@@ -12,7 +12,11 @@
     <popUp_detalle_creditoVue :credito="creditoSelected" @close="pp_detalle_cl_op" />
   </section>
   <section v-if="pp_registro">
-    <popUp_registro_pagoVue :credito="creditoSelected?.creditID" @update-table="updateStatus" @close="pp_registro_cl_op" />
+    <popUp_registro_pagoVue
+      :credito="creditoSelected?.creditID"
+      @update-table="updateStatus"
+      @close="pp_registro_cl_op"
+    />
   </section>
 
   <!-- Mobile -->
@@ -132,8 +136,9 @@ const get_creditos = async () => {
 
 const updateStatus = async () => {
   loading.value = true
-  creditos.value = await call_get_creditos()
+  await get_creditos()
   loading.value = false
+  pp_registro_cl_op(false)
 }
 
 onMounted(() => {
