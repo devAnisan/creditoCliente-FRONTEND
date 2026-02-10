@@ -30,9 +30,9 @@ const form = ref<form_interface>({
 const registrar_pago = async () => {
   try {
     const response = await registroPago(form.value)
-    console.log(form.value)
+    console.log(response)
 
-    if (response.status === 200) {
+    if (response.data.affectedRows > 0) {
       alert('Pago registrado exitosamente')
       closePopUp(true)
     } else {
