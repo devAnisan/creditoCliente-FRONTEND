@@ -11,6 +11,9 @@
   <section v-if="pp_detalles">
     <popUp_detalle_creditoVue :credito="creditoSelected" @close="pp_detalle_cl_op" />
   </section>
+  <section v-if="pp_registro">
+    <popUp_registro_pagoVue :credito="creditoSelected?.creditID" @close="pp_registro_cl_op" />
+  </section>
 
   <!-- Mobile -->
   <body class="text-sm md:text-lg">
@@ -69,7 +72,14 @@
                 />
               </td>
 
-              <td><input type="button" value="Registrar" class="btn-main-secondary" /></td>
+              <td>
+                <input
+                  type="button"
+                  @click="(pp_registro_cl_op(true), actualiza_credito(val.creditID))"
+                  value="Registrar"
+                  class="btn-main-secondary"
+                />
+              </td>
             </tr>
           </tbody>
         </table>
@@ -94,20 +104,21 @@ import { Loader } from 'lucide-vue-next'
 // Funciones y estados de abrir y cerrar los popups
 const creditoSelected = ref<Creditos_interface | null>(null)
 const pp_detalles = ref(false)
-const pp_edicion = ref(false)
+const pp_registro = ref(false)
 
 //funcion
 const pp_detalle_cl_op = (status: boolean) => {
   pp_detalles.value = status
 }
-const pp_edicion_cl_op = (status: boolean) => {
-  pp_edicion.value = status
+const pp_registro_cl_op = (status: boolean) => {
+  pp_registro.value = status
 }
 //actual seleccion acerca de detalle de credito
 const actualiza_credito = (posi: number) => {
   creditoSelected.value = creditos.value.find((c) => c.creditID === posi) || null
 }
 import popUp_detalle_creditoVue from '@/components/credito_popUp/popUp_detalle_credito.vue'
+import popUp_registro_pagoVue from '@/components/credito_popUp/popUp_registro_pago.vue'
 import { SquarePlus } from 'lucide-vue-next'
 import { call_get_creditos } from '@/composable/creditos'
 import { onMounted, ref, watchEffect } from 'vue'
