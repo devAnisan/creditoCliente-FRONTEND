@@ -11,10 +11,11 @@ export interface pago_interface {
 const props = defineProps<{
   credito: number | undefined
 }>()
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'updateTable'])
 const closePopUp = (value: boolean) => {
   emit('close', value)
 }
+
 export interface form_interface {
   creditID: number
   fechaPago: Date
@@ -34,7 +35,8 @@ const registrar_pago = async () => {
 
     if (response.data.affectedRows > 0) {
       alert('Pago registrado exitosamente')
-      closePopUp(true)
+      closePopUp(false)
+      emit('updateTable')
     } else {
       alert('Error al registrar el pago')
     }

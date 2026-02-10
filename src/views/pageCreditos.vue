@@ -12,7 +12,7 @@
     <popUp_detalle_creditoVue :credito="creditoSelected" @close="pp_detalle_cl_op" />
   </section>
   <section v-if="pp_registro">
-    <popUp_registro_pagoVue :credito="creditoSelected?.creditID" @close="pp_registro_cl_op" />
+    <popUp_registro_pagoVue :credito="creditoSelected?.creditID" @update-table="updateStatus" @close="pp_registro_cl_op" />
   </section>
 
   <!-- Mobile -->
@@ -125,13 +125,17 @@ import { onMounted, ref, watchEffect } from 'vue'
 const loading = ref(true)
 
 const creditos = ref<Creditos_interface[]>([])
-const creditos_copia = ref<Creditos_interface[]>([])
-
 const get_creditos = async () => {
   const res = await call_get_creditos()
   creditos.value = res.data
-  creditos_copia.value = res.data
 }
+
+const updateStatus = async () => {
+  loading.value = true
+  creditos.value = await call_get_creditos()
+  loading.value = false
+}
+
 onMounted(() => {
   get_creditos()
 })
