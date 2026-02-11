@@ -9,7 +9,7 @@
 
   <!-- PopUs -->
   <section v-if="pp_detalles">
-    <popUp_detalle_creditoVue :credito="creditoSelected" @close="pp_detalle_cl_op" />
+    <popUp_detalle_creditoVue :credito="creditoSelected!" @close="pp_detalle_cl_op" />
   </section>
   <section v-if="pp_registro">
     <popUp_registro_pagoVue
@@ -106,7 +106,7 @@ export interface Creditos_interface {
 import { Loader } from 'lucide-vue-next'
 
 // Funciones y estados de abrir y cerrar los popups
-const creditoSelected = ref<Creditos_interface | null>(null)
+const creditoSelected = ref<Creditos_interface>()
 const pp_detalles = ref(false)
 const pp_registro = ref(false)
 
@@ -119,7 +119,7 @@ const pp_registro_cl_op = (status: boolean) => {
 }
 //actual seleccion acerca de detalle de credito
 const actualiza_credito = (posi: number) => {
-  creditoSelected.value = creditos.value.find((c) => c.creditID === posi) || null
+  creditoSelected.value = creditos.value.find((c) => c.creditID === posi)
 }
 import popUp_detalle_creditoVue from '@/components/credito_popUp/popUp_detalle_credito.vue'
 import popUp_registro_pagoVue from '@/components/credito_popUp/popUp_registro_pago.vue'

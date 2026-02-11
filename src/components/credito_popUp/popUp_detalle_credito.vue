@@ -36,7 +36,7 @@
 <script lang="ts" setup>
 import type { Creditos_interface } from '@/views/pageCreditos.vue'
 defineProps<{
-  credito: Creditos_interface
+  credito: Creditos_interface 
 }>()
 
 // emits

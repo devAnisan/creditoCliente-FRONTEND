@@ -184,6 +184,7 @@ const togglePopForm = (newState: boolean) => {
 
   <section v-if="stateOfpopForm">
     <popUpForm
+      class="z-50"
       title="Crear usuario"
       v-on:submit="crearCliente"
       :form-data="formFieldsAddCustomer"
