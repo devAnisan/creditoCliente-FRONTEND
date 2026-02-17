@@ -36,6 +36,7 @@ const formFieldsAddCustomer = [
   },
   { label: 'Dirección', model: 'direccion', placeholder: 'Ej: Provincia, Canton, Calle...' },
 ]
+import { auth } from '@/services/firebase'
 import TableClients from '@/components/TableClients.vue'
 import popUpDetail from '@/components/popUpDetail.vue'
 import popUpEdit from '@/components/popUpEdit.vue'
@@ -68,7 +69,7 @@ const detailsCustomer = ref<Cliente>({
 })
 const showEdit = ref(false)
 const loadClientes = async () => {
-  const data = await obtenerClientes()
+  const data = await obtenerClientes(auth.currentUser?.uid || '')
   clientes.value = data
   clientesOriginal.value = data
   console.log(clientes.value)

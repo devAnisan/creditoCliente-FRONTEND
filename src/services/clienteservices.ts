@@ -6,18 +6,18 @@ export interface responseAPI {
 }
 import type { Cliente } from '@/views/PageClientes.vue'
 
-export const obtenerClientes = async () => {
-  const res = await fetch(`http://localhost:3000/api/clientes/`)
+export const obtenerClientes = async (uid:string) => {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}clientes/cls/${uid}`)
   return await res.json()
 }
 
 export const creditosVencidos = async (data: string) => {
-  const res = await fetch(`http://localhost:3000/api/clientes/cl/${data}`)
+  const res = await fetch(`${import.meta.env.VITE_API_URL}clientes/cl/${data}`)
   return await res.json()
 }
 
 export const borrarCliente = async (data: string) => {
-  const res = await fetch(`http://localhost:3000/api/clientes/${data}`, {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}clientes/${data}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export const borrarCliente = async (data: string) => {
 }
 
 export const clienteInfo = async (data: number) => {
-  const res = await fetch(`http://localhost:3000/api/clientes/by-cedula/${data}`)
+  const res = await fetch(`${import.meta.env.VITE_API_URL}clientes/by-cedula/${data}`)
   return await res.json()
 }
 
@@ -36,7 +36,7 @@ export const actualizarCliente = async (
   datos: Cliente,
 ): Promise<responseAPI> => {
   try {
-    const res = await fetch(`http://localhost:3000/api/clientes/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}clientes/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

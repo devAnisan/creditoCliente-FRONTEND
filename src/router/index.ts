@@ -2,10 +2,9 @@ import PageMain from '../views/PageMain.vue'
 import pageCreditos from '@/views/pageCreditos.vue'
 import { createRouter, createMemoryHistory } from 'vue-router'
 import PageClientes from '@/views/PageClientes.vue'
-import LoginWin from '@/views/LoginWin.vue'
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 const routes = [
-  { path: '/login', component: LoginWin },
+  { path: '/login', component: () => import('@/views/LoginWin.vue') },
   { path: '/', component: PageMain, meta: { requiresAuth: true } },
   { path: '/clientes', component: PageClientes, meta: { requiresAuth: true } },
   { path: '/creditos', component: pageCreditos, meta: { requiresAuth: true }}
@@ -16,9 +15,18 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next) => {
-  const auth = getAuth();
-  const user = auth.currentUser;
+const getCurrentUser = () => {
+  return new Promise ((resolve, reject) => {
+    const auth = getAuth();
+    const unsubscribe  = onAuthStateChanged(auth, (user) => {
+      unsubscribe();
+      resolve(user);
+    }, reject);
+   })
+}
+
+router.beforeEach(async (to, from, next) => {
+  const user = await getCurrentUser();
   if (to.meta.requiresAuth && !user) {
     next('/login');
   } else {
