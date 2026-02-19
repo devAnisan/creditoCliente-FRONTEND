@@ -60,7 +60,7 @@ export const actualizarCliente = async (
 export const crearCliente = async(data: Cliente) => {
   try {
 
-    const res = await fetch('http://localhost:3000/api/clientes/', {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}clientes/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
