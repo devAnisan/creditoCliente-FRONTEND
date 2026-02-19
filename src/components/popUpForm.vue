@@ -20,7 +20,7 @@
         </table>
         <div class="flex">
           <input type="button" @click="closeForm" value="Cancelar" class="btn-main" />
-          <input type="submit" v-on:click="print" value="Confirmar" class="btn-main" />
+          <input type="submit" v-on:click="submitForm" value="Confirmar" class="btn-main" />
         </div>
       </form>
     </section>
@@ -28,7 +28,9 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, watch } from 'vue'
+import { auth } from '@/services/firebase'
+import { idCliente } from '@/composable/clientes'
+import { reactive, watch, onMounted, ref } from 'vue'
 type FormField = {
   label: string
   model: string
@@ -37,10 +39,21 @@ type FormField = {
   max?: number
   required?: boolean
 }
+const user = auth.currentUser
+const usuarioID = ref(0)
+onMounted(async () => {
+  try {
+    if (!user?.uid) return
+    const res = await idCliente(user.uid)
+    usuarioID.value = res.data
+  } catch (error) {
+    console.error(`Error al obtener el ID del cliente: ${error}`)
+  }
+})
 
 const emit = defineEmits(['close', 'submit'])
 const submitForm = () => {
-  emit('submit', { ...form })
+  emit('submit', { ...form, usuarioID: usuarioID.value })
 }
 const closeForm = () => {
   emit('close', false)
@@ -51,9 +64,7 @@ const props = defineProps<{
 }>()
 
 const form = reactive<Record<string, string>>({})
-const print = () => {
-  console.log(form)
-}
+
 watch(
   () => props.formData,
   () => {

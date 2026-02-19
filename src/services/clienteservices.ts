@@ -65,7 +65,7 @@ export const crearCliente = async(data: Cliente) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify({...data})
     })
     const response = await res.json()
     return{
@@ -73,6 +73,18 @@ export const crearCliente = async(data: Cliente) => {
       message: response.message ?? 'Server Response',
       response: response.data ?? null
     }
+  } catch (error) {
+    return{
+      ok: false,
+      message: error instanceof Error ? error.message : "Error desconocido"
+    }
+  }
+}
+
+export const idUser = async (data: string) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}clientes/id/${data}`)
+    return await res.json()
   } catch (error) {
     return{
       ok: false,

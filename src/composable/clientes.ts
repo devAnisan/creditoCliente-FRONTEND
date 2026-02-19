@@ -4,6 +4,7 @@ import {
   clienteInfo,
   actualizarCliente,
   crearCliente,
+  idUser,
 } from '@/services/clienteservices'
 import type { Cliente } from '@/views/PageClientes.vue'
 export const countCreditos = async (data: string) => {
@@ -24,4 +25,8 @@ export const actualizarcl = async (id: string | undefined, data: Cliente) => {
 
 export const crearCl = async (data: Cliente) => {
   return crearCliente(data)
+}
+
+export const idCliente = async (data: string) => {
+  return idUser(data)
 }
