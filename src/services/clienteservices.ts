@@ -6,7 +6,7 @@ export interface responseAPI {
 }
 import type { Cliente } from '@/views/PageClientes.vue'
 
-export const obtenerClientes = async (uid:string) => {
+export const obtenerClientes = async (uid: string) => {
   const res = await fetch(`${import.meta.env.VITE_API_URL}clientes/cls/${uid}`)
   return await res.json()
 }
@@ -57,7 +57,7 @@ export const actualizarCliente = async (
   }
 }
 
-export const crearCliente = async(data: Cliente) => {
+export const crearCliente = async (data: Cliente) => {
   try {
 
     const res = await fetch(`${import.meta.env.VITE_API_URL}clientes/`, {
@@ -65,16 +65,16 @@ export const crearCliente = async(data: Cliente) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({...data})
+      body: JSON.stringify({ ...data })
     })
     const response = await res.json()
-    return{
+    return {
       code: response.code,
       message: response.message ?? 'Server Response',
       response: response.data ?? null
     }
   } catch (error) {
-    return{
+    return {
       ok: false,
       message: error instanceof Error ? error.message : "Error desconocido"
     }
@@ -86,7 +86,7 @@ export const idUser = async (data: string) => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}clientes/id/${data}`)
     return await res.json()
   } catch (error) {
-    return{
+    return {
       ok: false,
       message: error instanceof Error ? error.message : "Error desconocido"
     }
