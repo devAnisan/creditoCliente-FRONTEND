@@ -241,19 +241,56 @@ const togglePopForm = (newState: boolean) => {
   <section class="flex justify-center animate-spin mt-2" v-if="isFetching === true">
     <Loader />
   </section>
-  <section v-if="isFetching === false" class="flex justify-center">
-    <TableClients
-      :clientes="clientes"
-      :id_borrar_question="id_borrar_question"
-      :creditos-por-cliente="creditosPorCliente"
-      @popUp="changeStatePopUp"
-      @eliminar="deleteCl"
-      @new-id-delete-question="newStateDeleteQuestion"
-      @show-details="changueShowDetail"
-      @user="userIDforDetails"
-      @show-details-pop-up="changueShowDetail"
-      @detallesdelcliente="searchID"
-      @show-edit="changeStatusShowEdit"
-    />
-  </section>
+  <body class="text-sm md:text-lg">
+    <!-- Mobile -->
+    <section class="md:hidden flex justify-center flex-wrap" v-if="isFetching === false">
+      <section
+        class="grid p-3 shadow-lg bg-white rounded-2xl my-3"
+        v-for="val in clientes"
+        :key="val.cedula"
+      >
+        <div class="flex justify-center flex-col">
+          <h1 class="font-black">{{ val.nombre }}</h1>
+          <p>Cédula: {{ val.cedula }}</p>
+          <input
+            type="button"
+            value="Más detalles"
+            @click="(changueShowDetail(true), searchID(val.cedula))"
+            class="btn-main"
+          />
+          <input
+            type="button"
+            value="Editar"
+            @click="(changeStatusShowEdit(true), searchID(val.cedula))"
+            class="btn-main-secondary"
+          />
+          <input
+            type="button"
+            value="Borrar"
+            @click="(changeStatePopUp(true), searchID(val.cedula))"
+            class="btn-main"
+          />
+        </div>
+      </section>
+    </section>
+
+    <!-- Desktop -->
+    <section class="hidden md:block">
+      <section v-if="isFetching === false" class="flex justify-center">
+        <TableClients
+          :clientes="clientes"
+          :id_borrar_question="id_borrar_question"
+          :creditos-por-cliente="creditosPorCliente"
+          @popUp="changeStatePopUp"
+          @eliminar="deleteCl"
+          @new-id-delete-question="newStateDeleteQuestion"
+          @show-details="changueShowDetail"
+          @user="userIDforDetails"
+          @show-details-pop-up="changueShowDetail"
+          @detallesdelcliente="searchID"
+          @show-edit="changeStatusShowEdit"
+        />
+      </section>
+    </section>
+  </body>
 </template>

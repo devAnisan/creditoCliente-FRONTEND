@@ -1,8 +1,10 @@
 <template>
-  <header class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-    <h1 class="text-2xl font-semibold">Créditos</h1>
+  <header
+    class="flex flex-row justify-between items-center gap-4 md:flex-row md:items-center md:justify-center"
+  >
+    <h1 class="text-2xl text-center font-semibold">Créditos</h1>
 
-    <button class="btn-main w-full md:w-auto flex justify-center">
+    <button class="btn-main w-50 md:w-auto flex justify-center">
       <SquarePlus /> <span class="font-bold">Nuevo crédito</span>
     </button>
   </header>
@@ -21,10 +23,13 @@
 
   <!-- Mobile -->
   <body class="text-sm md:text-lg">
-    <div class="md:hidden">
+    <div class="md:hidden flex justify-center">
       <div class="flex justify-center animate-spin mt-2" v-if="loading">
         <Loader />
       </div>
+      <p v-if="messageTimeout" class="text-center w-32 font-bold mt-4">
+        {{ messageTimeout }}
+      </p>
 
       <section
         v-else
@@ -49,7 +54,7 @@
       <section class="flex justify-center animate-spin mt-2" v-if="loading">
         <Loader />
       </section>
-      <section v-else>
+      <section class="flex justify-center" v-else>
         <table class="my-2">
           <thead>
             <tr class="*:p-2 *:border">
@@ -126,11 +131,14 @@ import popUp_registro_pagoVue from '@/components/credito_popUp/popUp_registro_pa
 import { SquarePlus } from 'lucide-vue-next'
 import { call_get_creditos } from '@/composable/creditos'
 import { onMounted, ref, watchEffect } from 'vue'
+import { auth } from '@/services/firebase'
+import { idCliente } from '@/composable/clientes'
 const loading = ref(true)
+const messageTimeout = ref('')
 
 const creditos = ref<Creditos_interface[]>([])
-const get_creditos = async () => {
-  const res = await call_get_creditos()
+const get_creditos = async (id?: number) => {
+  const res = await call_get_creditos(id)
   creditos.value = res.data
 }
 
@@ -141,13 +149,32 @@ const updateStatus = async () => {
   pp_registro_cl_op(false)
 }
 
-onMounted(() => {
-  get_creditos()
+// FUNCION PARA CONSEGUIR EL ID DEL USUARIO LOGUEADO
+// Y ASIGNARLO AL FORMULARIO DE CREACION DE CLIENTE,
+// PARA QUE SE ASOCIE EL CLIENTE CON EL USUARIO
+const user = auth.currentUser
+const usuarioID = ref(0)
+
+onMounted(async () => {
+  try {
+    if (!user?.uid) return
+    const res = await idCliente(user.uid)
+    usuarioID.value = res.data
+  } catch (error) {
+    console.error(`Error al obtener el ID del cliente: ${error}`)
+  }
+  get_creditos(usuarioID.value)
 })
 
 watchEffect(() => {
   if (creditos.value.length > 0) {
     loading.value = false
   }
+  setTimeout(() => {
+    if (creditos.value.length === 0) {
+      messageTimeout.value = 'No se han encontrado créditos. Intenta insertar uno.'
+      loading.value = false
+    }
+  }, 5000)
 })
 </script>

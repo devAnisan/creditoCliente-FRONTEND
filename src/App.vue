@@ -22,7 +22,7 @@ onMounted(() => {
     <template v-if="user">
       <AppHeader />
       <section class="flex justify-center items-center">
-        <section class="">
+        <section class="w-full md:w-4/5 p-2">
           <RouterView />
         </section>
       </section>

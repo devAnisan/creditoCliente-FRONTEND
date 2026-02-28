@@ -39,6 +39,9 @@ type FormField = {
   max?: number
   required?: boolean
 }
+// FUNCION PARA CONSEGUIR EL ID DEL USUARIO LOGUEADO
+// Y ASIGNARLO AL FORMULARIO DE CREACION DE CLIENTE,
+// PARA QUE SE ASOCIE EL CLIENTE CON EL USUARIO
 const user = auth.currentUser
 const usuarioID = ref(0)
 onMounted(async () => {
